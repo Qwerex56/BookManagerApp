@@ -1,0 +1,2 @@
+# BookManagerApp
+Simple fullstack app
