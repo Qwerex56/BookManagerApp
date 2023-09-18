@@ -1,4 +1,5 @@
 using Common.EFCore.Models;
+using LibrarySimService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySim.Controllers;
@@ -7,37 +8,67 @@ namespace LibrarySim.Controllers;
 [Route("api/Book")]
 public class BookController : ControllerBase
 {
-    private readonly LibraryContext _db;
-    
-    public BookController(LibraryContext injectedContext)
+    private readonly BookService _bookService;
+
+    public BookController(BookService injectedContext)
     {
-        _db = injectedContext;
+        _bookService = injectedContext;
     }
 
     [HttpGet(Name = "GetLibraryBooks")]
-    public IEnumerable<Book> Get()
+    [ProducesResponseType(200, Type = typeof(IEnumerable<Book>))]
+    public IActionResult Get()
     {
-        var books = _db.Books.OrderBy(b => b.Author);
-        return books;
+        var allBooks = _bookService.GetAllBooks();
+        return Ok(allBooks);
     }
 
-    [HttpPost(Name = "PostLibraryBooks")]
-    public void Post(string title, string author, int year)
+    [HttpPost(Name = "AddLibraryBook")]
+    public IActionResult Post(string author, string title, int? year)
     {
-        _db.Books.Add(new Book
+        var book = new Book
         {
-            Title = title,
             Author = author,
+            Title = title,
             Year = year
-        });
-
-        _db.SaveChanges();
+        };
+        var response = _bookService.CreateBook(book);
+        
+        return Ok();
     }
 
-    [HttpDelete(Name = "DeleteLibraryBook")]
-    public void Delete(string title)
+    [HttpPost("newBook")]
+    public IActionResult CreateBook([FromBody]Book book)
     {
-        _db.Books.RemoveRange(_db.Books.Where(b => b.Title == title));
-        _db.SaveChanges();
+        var result = _bookService.CreateBook(book);
+        if (!result)
+        {
+            return BadRequest();
+        }
+        
+        return Ok();
+    }
+
+    [HttpDelete(Name = "DeleteBookById")]
+    public IActionResult DeleteById(int bookId)
+    {
+        var result = _bookService.DeleteBook(bookId);
+        if (!result)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
+    }
+
+    [HttpDelete("id/{bookIds}" ,Name = "DeleteBooksByIds")]
+    public IActionResult DeleteByIds(IEnumerable<int> bookIds)
+    {
+        if (bookIds.Select(bookId => _bookService.DeleteBook(bookId)).Any(result => !result))
+        {
+            return BadRequest();
+        }
+    
+        return Ok();
     }
 }

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarySim", "LibrarySim\Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.EFCoreModels", "Common.EFCoreModels\Common.EFCoreModels.csproj", "{E69547C7-85C0-4BE1-A742-CE8B4DB11A8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarySimService", "LibrarySimService\LibrarySimService.csproj", "{0A4BF493-B8D9-4F6C-959A-22762A4A91E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E69547C7-85C0-4BE1-A742-CE8B4DB11A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E69547C7-85C0-4BE1-A742-CE8B4DB11A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E69547C7-85C0-4BE1-A742-CE8B4DB11A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4BF493-B8D9-4F6C-959A-22762A4A91E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4BF493-B8D9-4F6C-959A-22762A4A91E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4BF493-B8D9-4F6C-959A-22762A4A91E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4BF493-B8D9-4F6C-959A-22762A4A91E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
