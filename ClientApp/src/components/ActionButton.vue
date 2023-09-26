@@ -38,7 +38,7 @@ const onButtonClick = () => {
 <template>
   <label
     :for="id"
-    class="w-full h-full flex flex-row items-center justify-center"
+    class="w-full h-full flex flex-row items-center justify-center rounded"
     :class="[getDesign]"
     @click="onButtonClick"
   >

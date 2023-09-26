@@ -69,6 +69,30 @@ const useBookStore = defineStore("books", () => {
         method: "DELETE",
       });
     });
+
+    books.value.forEach(async (book) => {
+      if (!isBookInArray(book.bookId, oldData)) {
+        return;
+      }
+
+      const updatedBook = oldData.find(
+        (oldBook) => oldBook.bookId === book.bookId,
+      ) as IBook;
+
+      if (
+        updatedBook.title !== book.title ||
+        updatedBook.author !== book.author ||
+        updatedBook.year !== book.year
+      ) {
+        await fetch("api/Book/updateBook", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(book),
+        });
+      }
+    });
   }
 
   const isBookInArray = (bookId: number, arr: IBook[]): boolean => {

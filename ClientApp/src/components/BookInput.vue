@@ -19,6 +19,7 @@ defineEmits(["update:modelValue"]);
 
 <template>
   <input
+    class="appearance-none outline-none hover:bg-white w-4/5 bg-slate-100 rounded indent-4 placeholder:text-slate-600"
     :type="inputType"
     :value="inputValue"
     :placeholder="placeHolder"
