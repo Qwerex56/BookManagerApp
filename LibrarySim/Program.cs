@@ -1,4 +1,5 @@
 using Common.EFCore;
+using LibrarySimService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddLibraryContext();
+builder.Services.AddLibrarySimServices();
 
 var app = builder.Build();
 
@@ -20,16 +22,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHsts();
-}
+if (!app.Environment.IsDevelopment()) app.UseHsts();
 
 app.UseHttpsRedirection();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "api/{controller}/{action=Index}/{id?}")
-;
+        "default",
+        "api/{controller}/{action=Index}/{id?}")
+    ;
 
 app.Run();

@@ -1,58 +1,37 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import useBookStore from "./stores/bookStore";
+import { onMounted } from "vue";
+import ListItem from "./components/ListItem.vue";
+import ListItemAdder from "./components/ListItemAdder.vue";
+import ListItemBook from "./components/ListItemBook.vue";
+import ActionButton from "./components/ActionButton.vue";
 
-interface IBookdata {
-  bookId: number;
-  title: string;
-  author: string;
-  year: number;
-}
-
-const myBook = {} as IBookdata;
-
-const getBooks = async () => {
-  const response = await fetch('api/Book');
-  const data = await response.json() as IBookdata[];
-  
-  return data;
-}
-
-const bookData = ref<IBookdata[]>([]);
-
-const addBook = async (book: IBookdata) => {
-  await fetch(`api/Book?title=${book.title}&author=${book.author}&year=${book.year}`, {method: 'POST'});
-  bookData.value = await getBooks();
-}
-
-const removeBook = async (bookTitle: string) => {
-  await fetch(`api/Book?title=${bookTitle}`, {method: 'DELETE'});
-  bookData.value = await getBooks();
-}
+const bookStore = useBookStore();
 
 onMounted(async () => {
-  bookData.value = await getBooks();
+  await bookStore.initBooksStore;
 });
 </script>
 
 <template>
-  <ul>
-    <li v-for="item in bookData"> 
-      <div>
-        <p>{{ item.title }}</p>
-        <p>{{ item.author }}</p>
-        <p>{{ item.year }}</p>
-      </div>
-      <button @click="removeBook(item.title)">
-        Delete Book
-      </button>
-    </li>
-  </ul>
-  <div>
-    <input placeholder="Title" v-model="myBook.title" type="text" name="BTitle" id="">
-    <input placeholder="Author" v-model="myBook.author" type="text" name="BAuthor" id="">
-    <input placeholder="ReleaseYears" v-model="myBook.year" type="text" name="BYear" id="">
-    <button @click="addBook(myBook)">
-      Add Book
-    </button>
+  <div class="flex flex-col h-full gap-4 items-center justify-center">
+    <ul
+      class="flex flex-col gap-0.5 w-4/5 p-1 bg-slate-500 border border-black rounded"
+    >
+      <ListItem>
+        <p>Title</p>
+        <p>Author</p>
+        <p>Release Year</p>
+        <p>Actions</p>
+      </ListItem>
+      <ListItemBook
+        v-for="item in bookStore.getBooks"
+        :book="item"
+      ></ListItemBook>
+      <ListItemAdder />
+    </ul>
+    <ActionButton class="max-w-xs max-h-8" @action="bookStore.syncChanges">
+      Save Changes
+    </ActionButton>
   </div>
 </template>

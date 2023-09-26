@@ -15,10 +15,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common.EFCoreModels\Common.EFCoreModels.csproj" />
+      <ProjectReference Include="..\LibrarySimService\LibrarySimService.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Models\" />
-    </ItemGroup>
 
 </Project>
